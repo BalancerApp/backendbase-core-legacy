@@ -14,8 +14,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class SessionDetails implements RequestHandlerInterface
 {
-    public function __construct(private UserRepository $userRepository, private RolesRepository $rolesRepository)
-    {
+    private UserRepository $userRepository;
+    private RolesRepository $rolesRepository;
+
+    public function __construct(
+        UserRepository $userRepository,
+        RolesRepository $rolesRepository
+    ) {
+        $this->userRepository  = $userRepository;
+        $this->rolesRepository = $rolesRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

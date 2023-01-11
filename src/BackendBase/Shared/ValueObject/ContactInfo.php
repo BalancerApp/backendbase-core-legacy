@@ -7,8 +7,13 @@ use BackendBase\Shared\ValueObject\Interfaces\Email;
 
 final class ContactInfo
 {
-    public function __construct(private Email $email, private ?\BackendBase\Shared\ValueObject\PhoneNumber $phoneNumber)
+    private Email $email;
+    private ? PhoneNumber $phoneNumber;
+
+    public function __construct(Email $email, ? PhoneNumber $phoneNumber)
     {
+        $this->email       = $email;
+        $this->phoneNumber = $phoneNumber;
     }
 
     public function email() : Email

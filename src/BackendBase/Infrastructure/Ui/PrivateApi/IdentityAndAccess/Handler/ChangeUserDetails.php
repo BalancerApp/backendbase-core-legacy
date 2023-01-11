@@ -18,8 +18,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class ChangeUserDetails implements RequestHandlerInterface
 {
-    public function __construct(private UserRepository $userRepository, private GenericRepository $genericRepository)
-    {
+    private UserRepository $userRepository;
+    private GenericRepository $genericRepository;
+
+    public function __construct(
+        UserRepository $userRepository,
+        GenericRepository $genericRepository
+    ) {
+        $this->userRepository    = $userRepository;
+        $this->genericRepository = $genericRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

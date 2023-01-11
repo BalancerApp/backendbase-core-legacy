@@ -10,10 +10,18 @@ use Ramsey\Uuid\UuidInterface;
 class User
 {
     private UuidInterface $id;
+    private Person $person;
+    private ContactInformation $contactInformation;
+    private bool $isActive;
+    private DateTimeImmutable $createdAt;
 
-    public function __construct(UuidInterface $id, private Person $person, private ContactInformation $contactInformation, private bool $isActive, private DateTimeImmutable $createdAt)
+    public function __construct(UuidInterface $id, Person $person, ContactInformation $contactInformation, bool $isActive, DateTimeImmutable $createdAt)
     {
         $this->id                 = $id;
+        $this->person             = $person;
+        $this->contactInformation = $contactInformation;
+        $this->isActive           = $isActive;
+        $this->createdAt          = $createdAt;
     }
 
     public function getId() : UuidInterface

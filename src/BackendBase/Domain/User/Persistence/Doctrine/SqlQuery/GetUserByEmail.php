@@ -37,7 +37,7 @@ SQL;
         $statement = $query->executeQuery(self::$sql, $parameters);
         try {
             $records = $statement->fetchAll(FetchMode::CUSTOM_OBJECT, User::class);
-            if ((is_countable($records) ? count($records) : 0) === 0) {
+            if (count($records) === 0) {
                 throw UserNotFound::create(sprintf('User not found by email: %s', $parameters['email']));
             }
 

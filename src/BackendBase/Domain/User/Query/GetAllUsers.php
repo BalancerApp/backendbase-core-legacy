@@ -6,8 +6,13 @@ namespace BackendBase\Domain\User\Query;
 
 class GetAllUsers
 {
-    public function __construct(private int $offset, private int $limit)
+    private int $offset;
+    private int $limit;
+
+    public function __construct(int $offset, int $limit)
     {
+        $this->offset = $offset;
+        $this->limit  = $limit;
     }
 
     public function offset() : int

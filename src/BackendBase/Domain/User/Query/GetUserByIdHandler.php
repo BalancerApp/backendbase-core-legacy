@@ -10,8 +10,11 @@ use BackendBase\Domain\User\Persistence\Doctrine\ResultObject\User;
 
 class GetUserByIdHandler
 {
-    public function __construct(private UserQuery $query)
+    private $query;
+
+    public function __construct(UserQuery $repository)
     {
+        $this->query = $repository;
     }
 
     public function __invoke(GetUserById $command) : User

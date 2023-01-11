@@ -28,7 +28,7 @@ final class PrivateTaxId implements TaxId
 
     private static function validateTaxId(string $taxId) : bool
     {
-        if (str_starts_with($taxId, '0')) {
+        if (strpos($taxId, '0') === 0) {
             throw InvalidPrivateTaxIdNumber::create('Private tax id cannot be started with zero(0): ' . $taxId);
         }
 

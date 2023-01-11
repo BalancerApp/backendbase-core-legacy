@@ -13,7 +13,6 @@ final class GettextArrayLoader extends Loader
 {
     public function loadArray(array $localeData, ?Translations $translations = null) : Translations
     {
-        $array = [];
         if (! $translations) {
             $translations = $this->createTranslations();
         }

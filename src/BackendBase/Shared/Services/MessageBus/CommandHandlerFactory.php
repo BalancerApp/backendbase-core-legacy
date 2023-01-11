@@ -11,9 +11,6 @@ use Selami\Stdlib\Resolver;
 
 class CommandHandlerFactory implements FactoryInterface
 {
-    /**
-     * @var Interop\Container\ContainerInterface|null
-     */
     private $container;
 
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)

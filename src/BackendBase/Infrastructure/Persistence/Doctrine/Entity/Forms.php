@@ -47,6 +47,9 @@ class Forms
         $this->createdBy = $createdBy;
     }
 
+    /**
+     * @param array $metadata
+     */
     public function setMetadata(array $metadata) : void
     {
         $this->metadata = $metadata;
@@ -88,6 +91,9 @@ class Forms
         $this->formId = $formId;
     }
 
+    /**
+     * @param array $postData
+     */
     public function setPostData(array $postData) : void
     {
         $this->postData = $postData;

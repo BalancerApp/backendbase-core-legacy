@@ -21,8 +21,15 @@ use Ramsey\Uuid\Uuid;
 
 class AddNewContentToCategory implements RequestHandlerInterface
 {
-    public function __construct(private ContentRepository $contentsRepository, private GenericRepository $genericRepository)
-    {
+    private ContentRepository $contentsRepository;
+    private GenericRepository $genericRepository;
+
+    public function __construct(
+        ContentRepository $contentsRepository,
+        GenericRepository $genericRepository
+    ) {
+        $this->contentsRepository = $contentsRepository;
+        $this->genericRepository  = $genericRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
@@ -47,7 +54,7 @@ class AddNewContentToCategory implements RequestHandlerInterface
         $payload          = PayloadSanitizer::sanitize($request->getParsedBody(), $allowHtml);
         $metadata         = $payload['metadata'] ?? [];
         $categoryData     = $this->contentsRepository->getCategory($request->getAttribute('category'));
-        $metadata['slug'] ??= '/' . $categoryData['slug'] . '/' . $slugify->slugify($payload['title']);
+        $metadata['slug'] = $metadata['slug'] ?? ('/' . $categoryData['slug'] . '/' . $slugify->slugify($payload['title']));
 
         $content = new Content();
         $content->setId($payload['tenantId'] ?? Uuid::uuid4()->toString());

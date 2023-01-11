@@ -14,9 +14,18 @@ use Psr\Http\Server\RequestHandlerInterface;
 class CollectionsData implements RequestHandlerInterface
 {
     private const RESULT_ROWS_LIMIT = 25;
+    private array $config;
+    private QueryBus $queryBus;
+    private CollectionQuery $collectionQuery;
 
-    public function __construct(private QueryBus $queryBus, private CollectionQuery $collectionQuery, private array $config)
-    {
+    public function __construct(
+        QueryBus $queryBus,
+        CollectionQuery $collectionQuery,
+        array $config
+    ) {
+        $this->config          = $config;
+        $this->queryBus        = $queryBus;
+        $this->collectionQuery = $collectionQuery;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

@@ -8,8 +8,15 @@ use function implode;
 
 class Person
 {
-    public function __construct(private string $firstName, private string $lastName, private ContactInformation $contactInformation)
+    private string $firstName;
+    private string $lastName;
+    private ContactInformation $contactInformation;
+
+    public function __construct(string $firstName, string $lastName, ContactInformation $contactInformation)
     {
+        $this->firstName          = $firstName;
+        $this->lastName           = $lastName;
+        $this->contactInformation = $contactInformation;
     }
 
     public function firstName() : string

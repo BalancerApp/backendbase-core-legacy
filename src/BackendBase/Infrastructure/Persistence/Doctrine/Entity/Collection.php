@@ -55,7 +55,7 @@ class Collection
     /**
      * @Column(type="uuid",nullable=true, name="parent_id")
      */
-    protected ?string $parentId = null;
+    protected ?string $parentId;
 
     /**
      * @Column(type="json_array",nullable=true,options={"jsonb"=true})

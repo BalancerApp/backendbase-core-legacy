@@ -79,7 +79,7 @@ class CollectionQuery implements CollectionQueryInterface
                 'id' => $item['key'],
                 'name' => $item['name'],
                 'slug' => $item['slug'],
-                'metadata' => json_decode($item['metadata'] ?? '{}', (bool) JSON_OBJECT_AS_ARRAY, 512, JSON_THROW_ON_ERROR),
+                'metadata' => json_decode($item['metadata'] ?? '{}', (bool) JSON_OBJECT_AS_ARRAY),
                 'items' => $this->getChildrenKeys($item['id']),
             ];
         }

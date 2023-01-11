@@ -48,7 +48,7 @@ class Content
     /**
      * @Column(type="string", name="serp_title")
      */
-    protected ?string $serpTitle = null;
+    protected ?string $serpTitle;
 
     /**
      * @Column(type="string")
@@ -64,24 +64,24 @@ class Content
     /**
      * @Column(type="string", name="meta_description")
      */
-    protected ?string $metaDescription = null;
+    protected ?string $metaDescription;
 
 
 
     /**
      * @Column(type="string", name="serp_meta_description")
      */
-    protected ?string $serpMetaDescription = null;
+    protected ?string $serpMetaDescription;
 
     /**
      * @Column(type="string")
      */
-    protected ?string $keywords = null;
+    protected ?string $keywords;
 
     /**
      * @Column(type="string")
      */
-    protected ?string $robots = null;
+    protected ?string $robots;
 
     /**
      * @Column(type="json",nullable=true,options={"jsonb":true})
@@ -95,7 +95,7 @@ class Content
     /**
      * @Column(type="string")
      */
-    protected ?string $redirect = null;
+    protected ?string $redirect;
 
 
     /**

@@ -17,8 +17,12 @@ use function count;
 
 class GetForms implements RequestHandlerInterface
 {
-    public function __construct(private GenericRepository $genericRepository)
-    {
+    private GenericRepository $genericRepository;
+
+    public function __construct(
+        GenericRepository $genericRepository
+    ) {
+        $this->genericRepository = $genericRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

@@ -17,8 +17,15 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class UpdateCollectionItem implements RequestHandlerInterface
 {
-    public function __construct(private CommandBus $commandBus, private array $config)
-    {
+    private $config;
+    private $commandBus;
+
+    public function __construct(
+        CommandBus $commandBus,
+        array $config
+    ) {
+        $this->config     = $config;
+        $this->commandBus = $commandBus;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

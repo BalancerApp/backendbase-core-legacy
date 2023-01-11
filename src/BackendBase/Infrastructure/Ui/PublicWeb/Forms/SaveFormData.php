@@ -20,12 +20,14 @@ use function urlencode;
 class SaveFormData implements RequestHandlerInterface
 {
     private ServerUrlHelper $urlHelper;
+    private GenericRepository $genericRepository;
 
     public function __construct(
         ServerUrlHelper $urlHelper,
-        private GenericRepository $genericRepository
+        GenericRepository $genericRepository
     ) {
         $this->urlHelper         = $urlHelper;
+        $this->genericRepository = $genericRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

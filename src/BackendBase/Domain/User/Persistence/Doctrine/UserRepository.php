@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface
                 sprintf('User already exists with the email provided: %s', $user->email()->toString()),
                 ['provided_email' => $user->email()->toString()]
             );
-        } catch (UserNotFound) {
+        } catch (UserNotFound $exception) {
             if (! $user instanceof User) {
                 throw InvalidArgument::create('Provided data is not a User object!');
             }

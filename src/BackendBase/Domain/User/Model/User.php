@@ -17,16 +17,31 @@ class User
 {
     public const CREATED_AT_FORMAT = 'Y-m-d H:i:s';
 
+    private UserIdInterface $id;
+    private Email $email;
+    private string $firstName;
+    private string $lastName;
+    private string $passwordHash;
+    private string $role;
+    private DateTimeImmutable $createdAt;
+
     private function __construct(
-        private UserIdInterface $id,
-        private Email $email,
-        private string $firstName,
-        private string $lastName,
-        private string $passwordHash,
-        private string $role,
-        private DateTimeImmutable $createdAt
+        UserIdInterface $id,
+        Email $email,
+        string $firstName,
+        string $lastName,
+        string $passwordHash,
+        string $role,
+        DateTimeImmutable $createdAt
     ) {
+        $this->id           = $id;
+        $this->email        = $email;
+        $this->firstName    = $firstName;
         $this->lastName     = $lastName;
+        $this->passwordHash = $passwordHash;
+        $this->role         =  $role;
+        $this->lastName     = $lastName;
+        $this->createdAt    = $createdAt;
     }
 
     public static function create(string $uuid, string $email, string $firstName, string $lastName, string $passwordHash, string $role, string $createdAt)

@@ -9,8 +9,11 @@ use BackendBase\Domain\Collections\Persistence\Doctrine\ResultObject\Collection;
 
 class GetCollectionItemBySlugHandler
 {
-    public function __construct(private CollectionQuery $collectionQuery)
+    private CollectionQuery $collectionQuery;
+
+    public function __construct(CollectionQuery $collectionQuery)
     {
+        $this->collectionQuery = $collectionQuery;
     }
 
     public function __invoke(GetCollectionItemBySlug $query) : Collection

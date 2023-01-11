@@ -8,8 +8,11 @@ use League\Tactician\CommandBus as TacticianCommandBus;
 
 class MessageBus
 {
-    public function __construct(private TacticianCommandBus $messageBus)
+    private $messageBus;
+
+    public function __construct(TacticianCommandBus $messageBus)
     {
+        $this->messageBus = $messageBus;
     }
 
     /**

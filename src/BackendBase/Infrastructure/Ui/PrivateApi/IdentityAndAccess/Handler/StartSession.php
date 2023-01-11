@@ -25,14 +25,18 @@ use function time;
 
 class StartSession implements RequestHandlerInterface
 {
+    private UserRepository $userRepository;
     private RedisRateLimiter $redisRateLimiter;
+    private RolesRepository $rolesRepository;
 
     public function __construct(
-        private UserRepository $userRepository,
-        private RolesRepository $rolesRepository,
+        UserRepository $userRepository,
+        RolesRepository $rolesRepository,
         RedisRateLimiter $redisRateLimiter
     ) {
+        $this->userRepository   = $userRepository;
         $this->redisRateLimiter = $redisRateLimiter;
+        $this->rolesRepository  = $rolesRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

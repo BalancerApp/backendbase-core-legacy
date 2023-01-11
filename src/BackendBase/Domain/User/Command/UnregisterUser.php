@@ -6,8 +6,11 @@ namespace BackendBase\Domain\User\Command;
 
 class UnregisterUser
 {
-    public function __construct(private string $id)
+    private $id;
+
+    public function __construct(string $uuid)
     {
+        $this->id = $uuid;
     }
 
     public function id()

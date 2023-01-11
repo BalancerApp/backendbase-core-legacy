@@ -81,7 +81,7 @@ SQL;
         $statement = $this->executeQuery($sql, $params);
         try {
             $records = $statement->fetchAll(FetchMode::CUSTOM_OBJECT, Collection::class);
-            if ((is_countable($records) ? count($records) : 0) === 0) {
+            if (count($records) === 0) {
                 return new Collections();
             }
 
@@ -96,7 +96,7 @@ SQL;
         $statement = $this->executeQuery($sql, $parameters);
         try {
             $records = $statement->fetchAll(FetchMode::CUSTOM_OBJECT, Collection::class);
-            if ((is_countable($records) ? count($records) : 0) === 0) {
+            if (count($records) === 0) {
                 throw CollectionNotFound::create(
                     sprintf('Collection not found by ' . $paramName . ': %s', $parameters[$keyParameter])
                 );

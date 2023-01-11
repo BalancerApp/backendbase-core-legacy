@@ -18,8 +18,13 @@ use function json_decode;
 
 class UserRoles implements RequestHandlerInterface
 {
-    public function __construct(private RolesRepository $rolesRepository, array $config)
-    {
+    private RolesRepository $rolesRepository;
+
+    public function __construct(
+        RolesRepository $rolesRepository,
+        array $config
+    ) {
+        $this->rolesRepository = $rolesRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

@@ -18,8 +18,11 @@ use function str_replace;
 
 final class PrivateApiAuthorizationMiddleware implements MiddlewareInterface
 {
-    public function __construct(private RolesRepository $rolesRepository)
+    private RolesRepository $rolesRepository;
+
+    public function __construct(RolesRepository $rolesRepository)
     {
+        $this->rolesRepository = $rolesRepository;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface

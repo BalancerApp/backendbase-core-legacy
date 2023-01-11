@@ -17,8 +17,22 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 class PageHandler implements RequestHandlerInterface
 {
-    public function __construct(private QueryBus $queryBus, private ?\Mezzio\Template\TemplateRendererInterface $template, private ContentRepository $contentRepository, private array $config)
-    {
+    /** @var TemplateRendererInterface|null */
+    private $template;
+    private $config;
+    private $queryBus;
+    private ContentRepository $contentRepository;
+
+    public function __construct(
+        QueryBus $queryBus,
+        TemplateRendererInterface $template,
+        ContentRepository $contentRepository,
+        array $config
+    ) {
+        $this->template          = $template;
+        $this->config            = $config;
+        $this->queryBus          = $queryBus;
+        $this->contentRepository = $contentRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface

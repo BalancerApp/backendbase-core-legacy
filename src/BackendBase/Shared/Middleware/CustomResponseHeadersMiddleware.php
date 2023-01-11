@@ -12,8 +12,13 @@ use function in_array;
 
 class CustomResponseHeadersMiddleware implements MiddlewareInterface
 {
-    public function __construct(private array $defaultHeaders, private array $allowOrigins)
+    private array $defaultHeaders;
+    private array $allowOrigins;
+
+    public function __construct(array $defaultHeaders, array $allowOrigins)
     {
+        $this->defaultHeaders = $defaultHeaders;
+        $this->allowOrigins   = $allowOrigins;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler) : ResponseInterface

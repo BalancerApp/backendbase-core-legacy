@@ -8,8 +8,11 @@ use BackendBase\Domain\User\Model\User;
 
 class UserMapper
 {
-    public function __construct(private User $user)
+    private $user;
+
+    public function __construct(User $user)
     {
+        $this->user = $user;
     }
 
     public function toDatabasePayload() : array

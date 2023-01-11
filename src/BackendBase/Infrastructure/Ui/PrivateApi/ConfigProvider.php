@@ -16,7 +16,7 @@ use function array_merge_recursive;
 class ConfigProvider
 {
     /** @var MezzioHandlerConfigProvider[] */
-    private array $modules = [];
+    private $modules = [];
 
     public function __construct()
     {

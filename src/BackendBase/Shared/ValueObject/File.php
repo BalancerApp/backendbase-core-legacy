@@ -10,10 +10,12 @@ use function pathinfo;
 class File
 {
     private array $pathInfo;
+    private LocalizedDateTime $createdAt;
 
-    public function __construct(string $filePath, private LocalizedDateTime $createdAt)
+    public function __construct(string $filePath, LocalizedDateTime $createdAt)
     {
         $this->pathInfo  = pathinfo($filePath);
+        $this->createdAt = $createdAt;
     }
 
     public function filePath() : string

@@ -20,10 +20,17 @@ use function trim;
 
 class AddNewCollectionItem implements RequestHandlerInterface
 {
+    private array $config;
+    private CommandBus $commandBus;
+
     private static array $requiredInputs = ['name', 'key', 'metadata', 'parentId', ''];
 
-    public function __construct(private CommandBus $commandBus, private array $config)
-    {
+    public function __construct(
+        CommandBus $commandBus,
+        array $config
+    ) {
+        $this->config     = $config;
+        $this->commandBus = $commandBus;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
@@ -43,7 +50,7 @@ class AddNewCollectionItem implements RequestHandlerInterface
         $collectionItemKey      = trim($requestBody['key']);
         $collectionItemParentId = $requestBody['parentId'];
         $collectionItemMetadata = $requestBody['metadata'];
-        if ((is_countable($collectionItemMetadata) ? count($collectionItemMetadata) : 0) ===0) {
+        if (count($collectionItemMetadata) ===0) {
             $collectionItemMetadata = ['v' => '1.0.0'];
         }
 

@@ -11,10 +11,11 @@ use function sprintf;
 
 class UpdateUserPartially
 {
-    private array $payload            = [];
+    private $id;
+    private $payload            = [];
     private static $validFields = ['first_name', 'last_name', 'email'];
 
-    public function __construct(private string $id, array $payload)
+    public function __construct(string $uuid, array $payload)
     {
         foreach (array_keys($payload) as $fieldName) {
             if (! in_array($fieldName, self::$validFields)) {
@@ -22,6 +23,7 @@ class UpdateUserPartially
             }
         }
         $this->payload = $payload;
+        $this->id      = $uuid;
     }
 
     public function id()

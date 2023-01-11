@@ -11,8 +11,11 @@ use BackendBase\Shared\Exception\ExecutionFailed;
 
 class UnregisterUserHandler
 {
-    public function __construct(private UserRepository $repository)
+    private $repository;
+
+    public function __construct(UserRepository $repository)
     {
+        $this->repository = $repository;
     }
 
     /**

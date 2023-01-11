@@ -6,8 +6,17 @@ namespace BackendBase\Domain\User\Command;
 
 class RegisterUser
 {
-    public function __construct(private string $id, private string $firstName, private string $lastName, private string $email)
+    private $id;
+    private $firstName;
+    private $lastName;
+    private $email;
+
+    public function __construct(string $uuid, string $firstName, string $lastName, string $email)
     {
+        $this->firstName = $firstName;
+        $this->lastName  = $lastName;
+        $this->email     = $email;
+        $this->id        = $uuid;
     }
 
     public function id()

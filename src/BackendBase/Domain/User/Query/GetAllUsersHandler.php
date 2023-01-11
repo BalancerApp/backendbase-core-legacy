@@ -9,8 +9,11 @@ use BackendBase\Domain\User\Model\Users;
 
 class GetAllUsersHandler
 {
-    public function __construct(private UserQuery $repository)
+    private $repository;
+
+    public function __construct(UserQuery $repository)
     {
+        $this->repository = $repository;
     }
 
     public function __invoke(GetAllUsers $command) : Users

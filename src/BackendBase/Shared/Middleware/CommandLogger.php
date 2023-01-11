@@ -41,11 +41,11 @@ class CommandLogger implements MiddlewareInterface
         $acceptHeader = $request->getHeaderLine('Accept');
         $source       = 'unknown';
         $apiVersion   = 'unknown';
-        if (str_contains($acceptHeader, 'private-backendbase')) {
+        if (strpos($acceptHeader, 'private-backendbase') !== false) {
             $source     = 'private-api';
             $apiVersion = $acceptHeader;
         }
-        if (str_contains($acceptHeader, 'public-backendbase')) {
+        if (strpos($acceptHeader, 'public-backendbase') !== false) {
             $source     = 'public-web';
             $apiVersion = $acceptHeader;
         }
@@ -83,8 +83,8 @@ class CommandLogger implements MiddlewareInterface
             'user_id' => $request->getAttribute('loggedUserId'),
             'source' => $source,
             'api_version' => $apiVersion,
-            'request' => json_encode($requestData, JSON_THROW_ON_ERROR),
-            'response' => json_encode($responseData, JSON_THROW_ON_ERROR),
+            'request' => json_encode($requestData),
+            'response' => json_encode($responseData),
             'logged_at' => (new DateTimeImmutable('now', new DateTimeZone('UTC')))->format(DATE_ATOM),
         ];
         $this->doctrineDbal->insert('admin.command_logs', $logData);

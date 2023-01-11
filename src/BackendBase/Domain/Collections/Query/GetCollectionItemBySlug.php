@@ -6,8 +6,13 @@ namespace BackendBase\Domain\Collections\Query;
 
 class GetCollectionItemBySlug
 {
-    public function __construct(private ?string $parentId, private string $slug)
+    private ?string $parentId;
+    private string $slug;
+
+    public function __construct(?string $parentId, string $slug)
     {
+        $this->parentId = $parentId;
+        $this->slug     = $slug;
     }
 
     public function payload() : array

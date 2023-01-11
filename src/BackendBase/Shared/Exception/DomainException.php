@@ -12,7 +12,7 @@ trait DomainException
     private int $status;
     private string $details;
     private string $title;
-    private ?string $type = null;
+    private ?string $type;
     private array $additional;
 
     private function __construct(int $status, string $detail, string $title, ?string $type, array $additional)

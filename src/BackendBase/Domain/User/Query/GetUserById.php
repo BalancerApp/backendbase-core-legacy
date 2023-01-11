@@ -6,8 +6,11 @@ namespace BackendBase\Domain\User\Query;
 
 class GetUserById
 {
-    public function __construct(private string $id)
+    private $id;
+
+    public function __construct(string $id)
     {
+        $this->id = $id;
     }
 
     public function id() : string

@@ -24,17 +24,26 @@ class GenericUploadImage implements RequestHandlerInterface
 {
     private const RESULT_ROWS_LIMIT = 25;
     private const ULID_LOWERCASE    = true;
+
+    private array $config;
     private Filesystem $fileSystem;
+    private FileRepository $fileRepository;
+    private CommandBus $commandBus;
+    private GenericRepository $genericRepository;
     private Slugify $slugifier;
 
     public function __construct(
-        private CommandBus $commandBus,
-        private FileRepository $fileRepository,
-        private GenericRepository $genericRepository,
+        CommandBus $commandBus,
+        FileRepository $fileRepository,
+        GenericRepository $genericRepository,
         Filesystem $fileSystem,
-        private array $config
+        array $config
     ) {
+        $this->config            = $config;
+        $this->commandBus        = $commandBus;
         $this->fileSystem        = $fileSystem;
+        $this->fileRepository    = $fileRepository;
+        $this->genericRepository = $genericRepository;
         $this->slugifier         = new Slugify(['rulesets' => ['default', 'turkish']]);
     }
 

@@ -10,11 +10,12 @@ use function count;
 
 abstract class ResultObjectsCollection implements Iterator, JsonSerializable
 {
-    private int $index = 0;
+    private int $index;
     private array $items;
 
     public function __construct(?array $items = [])
     {
+        $this->index = 0;
         $this->items = $items ?? [];
     }
 

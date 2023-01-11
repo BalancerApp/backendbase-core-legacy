@@ -9,8 +9,11 @@ use BackendBase\Domain\User\Model\User;
 
 class RegisterUserHandler
 {
-    public function __construct(private UserRepository $repository)
+    private $repository;
+
+    public function __construct(UserRepository $repository)
     {
+        $this->repository = $repository;
     }
 
     public function __invoke(RegisterUser $command) : void

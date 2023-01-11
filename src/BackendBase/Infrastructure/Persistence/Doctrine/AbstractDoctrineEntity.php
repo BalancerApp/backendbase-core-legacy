@@ -37,7 +37,7 @@ trait AbstractDoctrineEntity
         if ($this->isFieldsSet === false) {
             $this->setFields();
         }
-        if (str_starts_with($name, 'set')) {
+        if (strpos($name, 'set') === 0) {
             $fieldName =  lcfirst(str_replace('set', '', $name)); //CaseConverter::toSnakeCase(str_replace('set', '', $name));
             if (! in_array($fieldName, $this->fields, true)) {
                 throw new InvalidArgumentException(sprintf('Invalid set field function %s', $fieldName));

@@ -17,8 +17,21 @@ use function apcu_clear_cache;
 
 class ResetApcuCache implements RequestHandlerInterface
 {
-    public function __construct(private QueryBus $queryBus, private UserQuery $userQuery, private RolesRepository $rolesRepository, private array $config)
-    {
+    private $config;
+    private $queryBus;
+    private UserQuery $userQuery;
+    private RolesRepository $rolesRepository;
+
+    public function __construct(
+        QueryBus $queryBus,
+        UserQuery $userQuery,
+        RolesRepository $rolesRepository,
+        array $config
+    ) {
+        $this->config          = $config;
+        $this->queryBus        = $queryBus;
+        $this->userQuery       = $userQuery;
+        $this->rolesRepository = $rolesRepository;
     }
 
     public function handle(ServerRequestInterface $request) : ResponseInterface
