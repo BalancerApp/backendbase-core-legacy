@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace BackendBase\Shared\Factory\Doctrine;
 
 use Doctrine\Common\Cache\Psr6\DoctrineProvider;
-use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -32,7 +32,7 @@ class EntityManagerFactory implements FactoryInterface
         $client      = $container->get(Connection::class);
         $doctrineDir = $appConfig['app']['data_dir'] . '/cache/Doctrine';
         $config      = new Configuration();
-        $driverImpl  = $this->newDefaultAttributeDriver(['src/Infrastructure/Persistence/Doctrine/Entity']);
+        $driverImpl  = $config->newDefaultAnnotationDriver(['src/Infrastructure/Persistence/Doctrine/Entity']);
         $config->setMetadataCacheImpl($cache);
         $config->setProxyDir($doctrineDir . '/Proxies');
         $config->setProxyNamespace($appConfig['doctrine']['namespace-for-generator'] . '\\Proxies');
@@ -43,10 +43,5 @@ class EntityManagerFactory implements FactoryInterface
         $config->setResultCacheImpl($cache);
 
         return EntityManager::create($client, $config);
-    }
-
-    private function newDefaultAttributeDriver($paths = []): AttributeDriver
-    {
-           return new AttributeDriver($paths);
     }
 }
