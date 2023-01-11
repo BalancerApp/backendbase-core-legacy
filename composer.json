@@ -1,0 +1,166 @@
+{
+    "name": "reformo/backendbase-core",
+    "description": "Hexagonal (Ports and Adapters) Architecture and CQRS Ready Application Core!",
+    "type": "project",
+    "homepage": "https://github.com/reformo/backendbase-core",
+    "license": "MIT",
+    "keywords": [
+        "skeleton",
+        "middleware",
+        "psr",
+        "psr-7",
+        "psr-11",
+        "psr-15",
+        "zf",
+        "zendframework",
+        "mezzio",
+        "cqrs",
+        "hexagonal",
+        "tactician",
+        "commandbus",
+        "doctrine"
+    ],
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "laminas/laminas-dependency-plugin": true,
+            "malukenho/mcbumpface": true,
+            "laminas/laminas-component-installer": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {
+        "zf": {
+            "component-whitelist": [
+                "mezzio/mezzio",
+                "mezzio/mezzio-helpers",
+                "mezzio/mezzio-router",
+                "laminas/laminas-httphandlerrunner",
+                "mezzio/mezzio-fastroute",
+                "mezzio/mezzio-twigrenderer"
+            ]
+        }
+    },
+    "support": {
+        "issues": "https://github.com/reformo/hexagonal-cqrs-skeleton/issues",
+        "source": "https://github.com/reformo/hexagonal-cqrs-skeleton",
+        "rss": "https://github.com/reformo/hexagonal-cqrs-skeleton/releases.atom"
+    },
+    "require": {
+        "php": "^7.4",
+        "ext-apcu": "*",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-gettext": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-pdo": "*",
+        "ext-redis": "*",
+        "ext-sodium": "*",
+        "akrabat/ip-address-middleware": "^1.0.1",
+        "cocur/slugify": "^v4.3.0",
+        "consistence/consistence": "^2.0.2",
+        "doctrine/collections": "^1.8.0",
+        "doctrine/dbal": "^2.13.9",
+        "doctrine/orm": "^2.14.0",
+        "gettext/gettext": "^v5.7.0",
+        "guzzlehttp/guzzle": "^7.5.0",
+        "intervention/image": "^2.7.2",
+        "keiko/uuid-shortener": "^0.3.4",
+        "laminas/laminas-component-installer": "^2.8.0",
+        "laminas/laminas-config-aggregator": "^1.9.0",
+        "laminas/laminas-dependency-plugin": "2.4.0",
+        "laminas/laminas-diactoros": "^2.17.0",
+        "laminas/laminas-inputfilter": "^2.21.0",
+        "laminas/laminas-permissions-rbac": "^3.3.0",
+        "laminas/laminas-servicemanager": "^3.17.0",
+        "laminas/laminas-stdlib": "^3.13.0",
+        "lcobucci/jwt": "^3.4.6",
+        "league/flysystem": "^1.1.10",
+        "league/tactician": "^2.0-rc1",
+        "mezzio/mezzio": "^3.11.0",
+        "mezzio/mezzio-csrf": "^1.6.0",
+        "mezzio/mezzio-fastroute": "^3.6.0",
+        "mezzio/mezzio-helpers": "^5.9.0",
+        "mezzio/mezzio-problem-details": "^1.7.0",
+        "mezzio/mezzio-session-ext": "^1.15.0",
+        "mezzio/mezzio-twigrenderer": "^2.7.0",
+        "mkorkmaz/redislabs-rejson": "^0.1.2",
+        "moneyphp/money": "^v3.3.3",
+        "monolog/monolog": "^2.8.0",
+        "nesbot/carbon": "^2.65.0",
+        "nikolaposa/rate-limit": "^2.2.0",
+        "ocramius/proxy-manager": "^2.10.2",
+        "phpoffice/phpspreadsheet": "^1.26.0",
+        "psr/container": "^1.1.2",
+        "psr/http-message": "^1.0.1",
+        "psr/http-server-handler": "^1.0.1",
+        "psr/http-server-middleware": "^1.0.1",
+        "psr/log": "^1.1.4",
+        "ralouphie/mimey": "^2.1.0",
+        "ramsey/uuid": "^4.2.3",
+        "ramsey/uuid-doctrine": "^1.8.2",
+        "robinvdvleuten/ulid": "^v4.1.0",
+        "scienta/doctrine-json-functions": "^4.5.0",
+        "selami/console": "^2.2",
+        "selami/stdlib": "^2.5",
+        "twig/extensions": "^v1.5.4",
+        "vlucas/phpdotenv": "^v3.6.10",
+        "webmozart/assert": "^1.11.0"
+    },
+    "require-dev": {
+        "behat/behat": "^v3.12.0",
+        "doctrine/coding-standard": "^6.0.1",
+        "filp/whoops": "^2.14.6",
+        "laminas/laminas-development-mode": "^3.8.0",
+        "malukenho/mcbumpface": "^1.1.5",
+        "mezzio/mezzio-tooling": "^1.4.0",
+        "phpunit/phpunit": "^9.5.27",
+        "roave/security-advisories": "dev-master",
+        "rskuipers/php-assumptions": "^0.8.1",
+        "squizlabs/php_codesniffer": "^3.7.1",
+        "swoole/ide-helper": "^4.8.12"
+    },
+    "autoload": {
+        "psr-4": {
+            "BackendBase\\Shared\\": "src/BackendBase/Shared/",
+            "BackendBase\\Domain\\": "src/BackendBase/Domain/",
+            "BackendBase\\Infrastructure\\": "src/BackendBase/Infrastructure/",
+            "BackendBase\\PrivateApi\\": "src/BackendBase/Infrastructure/Ui/PrivateApi/",
+            "BackendBase\\PublicWeb\\": "src/BackendBase/Infrastructure/Ui/PublicWeb/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "IntegrationTest\\": "test/IntegrationTest/",
+            "UnitTest\\": "test/UnitTest/",
+            "Fixtures\\": "test/Fixtures/"
+        }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@development-enable",
+            "cp .env.dist .env",
+            "cp config/autoload/doctrine.local.php.dist config/autoload/doctrine.local.php",
+            "cp config/autoload/mezzio-swoole.local.php.dist config/autoload/mezzio-swoole.local.php"
+        ],
+        "post-install-cmd": [
+            "composer dumpautoload -o"
+        ],
+        "development-disable": "laminas-development-mode disable",
+        "development-enable": "laminas-development-mode enable",
+        "development-status": "laminas-development-mode status",
+        "expressive": "expressive --ansi",
+        "check": [
+            "@cs-check",
+            "@check-assumptions",
+            "@test"
+        ],
+        "cs-check": "vendor/bin/phpcs --standard=Doctrine",
+        "cs-fix": "vendor/bin/phpcbf --standard=Doctrine",
+
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
+    }
+}
