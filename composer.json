@@ -1,5 +1,5 @@
 {
-    "name": "reformo/backendbase-core",
+    "name": "balancer/backendbase-core-legacy",
     "description": "Hexagonal (Ports and Adapters) Architecture and CQRS Ready Application Core!",
     "type": "project",
     "homepage": "https://github.com/reformo/backendbase-core",
