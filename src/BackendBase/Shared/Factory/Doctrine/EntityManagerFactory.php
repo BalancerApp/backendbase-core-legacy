@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace BackendBase\Shared\Factory\Doctrine;
 
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Cache\ArrayCache;
+use Symfony\Component\Cache\Adapter\ArrayAdapter as ArrayCache;
+use Symfony\Component\Cache\Adapter\PhpFilesAdapter as PhpFileCache;
+use Doctrine\Common\Cache\Psr6\DoctrineProvider;
 use Doctrine\DBAL\Driver\Connection;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Ramsey\Uuid\Doctrine\UuidType;
@@ -21,15 +23,15 @@ final class EntityManagerFactory implements FactoryInterface
     {
         $appConfig = $container->get('config');
         if ($appConfig['debug'] === true) {
-            $cache = new ArrayCache();
+            $cache = DoctrineProvider::wrap(new ArrayCache());
         } else {
-            $cache = new ApcuCache();
+            $cache = DoctrineProvider::wrap(new PhpFileCache());
         }
         Type::addType('uuid', UuidType::class);
         $client      = $container->get(Connection::class);
         $doctrineDir = $appConfig['app']['data_dir'] . '/cache/Doctrine';
         $config      = new Configuration();
-        $driverImpl  = $config->newDefaultAnnotationDriver('src/Infrastructure/Persistence/Doctrine/Entity');
+        $driverImpl  = $this->newDefaultAnnotationDriver('src/Infrastructure/Persistence/Doctrine/Entity');
         $config->setMetadataCacheImpl($cache);
         $config->setProxyDir($doctrineDir . '/Proxies');
         $config->setProxyNamespace($appConfig['doctrine']['namespace-for-generator'] . '\\Proxies');
@@ -39,5 +41,9 @@ final class EntityManagerFactory implements FactoryInterface
         $config->setMetadataDriverImpl($driverImpl);
 
         return EntityManager::create($client, $config);
+    }
+       private function newDefaultAttributeDriver($paths = []): AttributeDriver
+    {
+           return new AttributeDriver($paths);
     }
 }
