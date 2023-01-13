@@ -6,7 +6,11 @@ namespace BackendBase\Infrastructure\Persistence\Doctrine\Entity;
 
 use BackendBase\Infrastructure\Persistence\Doctrine\AbstractDoctrineEntity;
 use DateTimeImmutable;
-
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\GeneratedValue;
 /**
  * @Entity
  * @Table(name="public.forms")
