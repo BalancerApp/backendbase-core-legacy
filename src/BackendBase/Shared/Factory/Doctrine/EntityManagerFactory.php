@@ -32,7 +32,7 @@ class EntityManagerFactory implements FactoryInterface
         $client      = $container->get(Connection::class);
         $doctrineDir = $appConfig['app']['data_dir'] . '/cache/Doctrine';
         $config      = new Configuration();
-        $driverImpl  = $config->newDefaultAnnotationDriver(['src/Infrastructure/Persistence/Doctrine/Entity']);
+        $driverImpl  = $config->newDefaultAnnotationDriver(['src/Infrastructure/Persistence/Doctrine/Entity'], false);
         $config->setMetadataCacheImpl($cache);
         $config->setProxyDir($doctrineDir . '/Proxies');
         $config->setProxyNamespace($appConfig['doctrine']['namespace-for-generator'] . '\\Proxies');
