@@ -7,7 +7,7 @@ namespace BackendBase\Infrastructure\Persistence\Doctrine\Repository;
 use BackendBase\Shared\Persistence\Doctrine\Repository;
 use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Redislabs\Module\RedisJson\RedisJsonInterface;
+use Redislabs\Module\ReJSON\ReJSON;
 use Selami\Stdlib\Arrays\ArrayKeysCamelCaseConverter;
 
 use function array_key_exists;
@@ -17,16 +17,17 @@ use function ucfirst;
 
 use const JSON_THROW_ON_ERROR;
 
-class GenericRepository implements Repository
+class GenericRepository
 {
     protected Connection $connection;
+    protected EntityManagerInterface $entityManager;
+    protected ReJSON $redisJson;
 
-    public function __construct(
-        protected EntityManagerInterface $entityManager,
-        protected RedisJsonInterface $redisJson,
-        protected array $config
-    ) {
-        $this->connection = $entityManager->getConnection();
+    public function __construct(EntityManagerInterface $entityManager, Connection $connection, ReJSON $reJSON) {
+
+        $this->connection    = $connection;
+        $this->entityManager = $entityManager;
+        $this->redisJson        = $reJSON;
     }
 
     public function beginTransaction()
