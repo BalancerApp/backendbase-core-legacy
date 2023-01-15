@@ -4,49 +4,84 @@ declare(strict_types=1);
 
 namespace BackendBase\Infrastructure\Persistence\Doctrine\Repository;
 
-use BackendBase\Infrastructure\Persistence\Doctrine\Entity\Newsletter;
-use BackendBase\Shared\Services\ArrayKeysCamelCaseConverter;
-use Doctrine\DBAL\Driver\Connection;
+use BackendBase\Shared\Persistence\Doctrine\Repository;
+use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManagerInterface;
-use Redislabs\Module\ReJSON\ReJSON;
-use const JSON_THROW_ON_ERROR;
+use Redislabs\Module\RedisJson\RedisJsonInterface;
+use Selami\Stdlib\Arrays\ArrayKeysCamelCaseConverter;
+
 use function array_key_exists;
 use function count;
 use function json_decode;
 use function ucfirst;
 
-class GenericRepository
+use const JSON_THROW_ON_ERROR;
+
+class GenericRepository implements Repository
 {
-    protected EntityManagerInterface $entityManager;
     protected Connection $connection;
 
-    private ReJSON $reJSON;
-
-    public function __construct(EntityManagerInterface $entityManager, Connection $connection, ReJSON $reJSON)
-    {
-        $this->connection    = $connection;
-        $this->entityManager = $entityManager;
-        $this->reJSON        = $reJSON;
+    public function __construct(
+        protected EntityManagerInterface $entityManager,
+        protected RedisJsonInterface $redisJson,
+        protected array $config
+    ) {
+        $this->connection = $entityManager->getConnection();
     }
 
-    public function persistNewsLetter(Newsletter $newsletter) : void
+    public function beginTransaction()
     {
-        $this->entityManager->persist($newsletter);
-        $this->entityManager->flush();
+        $this->entityManager
+            ->getConnection()
+            ->beginTransaction();
     }
 
-    public function findGeneric(string $className, string $entityId)
+    public function commit()
+    {
+        $this->entityManager
+            ->getConnection()
+            ->commit();
+    }
+
+    public function rollBack()
+    {
+        $this->entityManager
+            ->getConnection()
+            ->rollBack();
+    }
+
+    public function find(string $className, string $entityId)
     {
         return $this->entityManager->find($className, $entityId);
     }
 
-    public function persistGeneric($entity) : void
+    public function findGAsArray(string $className, string $entityId)
+    {
+        return $this->entityManager->getRepository($className)->findBy(['id' => $entityId])[0] ?? null;
+    }
+
+    public function persistGeneric($entity): void
     {
         $this->entityManager->persist($entity);
         $this->entityManager->flush();
     }
 
-    public function updateGeneric(string $className, string $entityId, array $entityData) : void
+    public function addQueueToPersist($entity): void
+    {
+        $this->entityManager->persist($entity);
+    }
+
+    public function addQueueToRemove($entity): void
+    {
+        $this->entityManager->remove($entity);
+    }
+
+    public function flush(): void
+    {
+        $this->entityManager->flush();
+    }
+
+    public function update(string $className, string $entityId, array $entityData): void
     {
         $genericEntityMeta     = $this->entityManager->getClassMetadata($className);
         $doctrineGenericEntity = $this->entityManager->find($className, $entityId);
@@ -54,14 +89,16 @@ class GenericRepository
             if (! $genericEntityMeta->hasField($key)) {
                 continue;
             }
+
             $method = 'set' . ucfirst($key);
             $doctrineGenericEntity->{$method}($value);
         }
+
         $this->entityManager->persist($doctrineGenericEntity);
         $this->entityManager->flush();
     }
 
-    public function getList(string $className, array $criteria, ?string $orderByString = '', ?array $pagination = []) : array
+    public function getList(string $className, array $criteria, string |null $orderByString = '', array |null $pagination = []): array
     {
         $genericEntityMeta = $this->entityManager->getClassMetadata($className);
         $tableName         = $genericEntityMeta->getTableName();
@@ -79,21 +116,26 @@ class GenericRepository
                 if ($useAnd === 1) {
                     $whereSQL .= ' AND ';
                 }
+
                 $whereSQL .= $key . '= :' . $key;
                 $useAnd    = 1;
             }
         }
+
         if (array_key_exists('offset', $pagination)) {
             $offset             = 'OFFSET :offset';
             $criteria['offset'] = $pagination['offset'];
         }
+
         if (array_key_exists('limit', $pagination)) {
-            $offset            = 'LIMIT :limit';
+            $limit             = 'LIMIT :limit';
             $criteria['limit'] = $pagination['limit'];
         }
+
         if (! empty($orderByString)) {
-            $orderBy =' ORDER BY ' . $orderByString;
+            $orderBy = ' ORDER BY ' . $orderByString;
         }
+
         $sql       = <<<SQL
             SELECT {$select}
               FROM {$tableName}
@@ -103,7 +145,7 @@ class GenericRepository
             {$limit}
 SQL;
         $statement = $this->connection->executeQuery($sql, $criteria);
-        $data      = $statement->fetchAll();
+        $data      = $statement->fetchAllAssociative();
 
         $returnData = [];
         foreach ($data as $datum) {
@@ -115,13 +157,18 @@ SQL;
 
                 $datum[$mappingData['columnName']] = json_decode($datum[$mappingData['columnName']], true, 512, JSON_THROW_ON_ERROR);
             }
+
+            if (array_key_exists('passwordHash', $datum)) {
+                unset($datum['passwordHash']);
+            }
+
             $returnData[] = $datum;
         }
 
         return ArrayKeysCamelCaseConverter::convertArrayKeys($returnData);
     }
 
-    public function getListTotal(string $className, array $criteria) : int
+    public function getListTotal(string $className, array $criteria): int
     {
         $genericEntityMeta = $this->entityManager->getClassMetadata($className);
         $tableName         = $genericEntityMeta->getTableName();
@@ -134,10 +181,12 @@ SQL;
                 if ($useAnd === 1) {
                     $whereSQL .= ' AND ';
                 }
+
                 $whereSQL .= $key . '= :' . $key;
                 $useAnd    = 1;
             }
         }
+
         $sql = <<<SQL
             SELECT count(*) as count
               FROM {$tableName}
@@ -146,6 +195,6 @@ SQL;
 
         $statement = $this->connection->executeQuery($sql, $criteria);
 
-        return (int) $statement->fetch()['count'];
+        return (int) $statement->fetchAssociative()['count'];
     }
 }
