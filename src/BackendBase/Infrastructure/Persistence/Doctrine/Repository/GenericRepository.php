@@ -55,6 +55,11 @@ class GenericRepository implements Repository
         return $this->entityManager->find($className, $entityId);
     }
 
+    public function findGeneric(string $className, string $entityId)
+    {
+        return $this->find($className, $entityId);
+    }
+    
     public function findGAsArray(string $className, string $entityId)
     {
         return $this->entityManager->getRepository($className)->findBy(['id' => $entityId])[0] ?? null;
