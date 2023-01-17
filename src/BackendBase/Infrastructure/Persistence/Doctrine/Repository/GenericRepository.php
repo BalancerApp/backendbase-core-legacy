@@ -104,7 +104,7 @@ class GenericRepository
         $this->entityManager->flush();
     }
 
-    public function getList(string $className, array $criteria, string |null $orderByString = '', array |null $pagination = []): array
+    public function getList(string $className, array $criteria, ?string $orderByString = '', ?array $pagination = []): array
     {
         $genericEntityMeta = $this->entityManager->getClassMetadata($className);
         $tableName         = $genericEntityMeta->getTableName();
