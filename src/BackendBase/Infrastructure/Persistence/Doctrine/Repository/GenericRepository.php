@@ -104,13 +104,12 @@ class GenericRepository
         $this->entityManager->flush();
     }
 
-    public function getList(string $className, array $criteria, ?string $orderByString = '', ?array $pagination = []): array
+    public function getList(string $className, array $criteria, ?string $orderByString = '', ?array $pagination = [], ?string $select = '*'): array
     {
         $genericEntityMeta = $this->entityManager->getClassMetadata($className);
         $tableName         = $genericEntityMeta->getTableName();
         $columns           = $genericEntityMeta->getFieldNames();
         $whereSQL          = '';
-        $select            = '*';
         $offset            = '';
         $limit             = '';
         $orderBy           = '';
