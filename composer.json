@@ -71,7 +71,7 @@
         "keiko/uuid-shortener": "^0.3.4",
         "laminas/laminas-component-installer": "^2.8.0",
         "laminas/laminas-config-aggregator": "^1.9.0",
-        "laminas/laminas-dependency-plugin": "2.4.0",
+        "laminas/laminas-dependency-plugin": "2.2.0",
         "laminas/laminas-diactoros": "^2.17.0",
         "laminas/laminas-inputfilter": "^2.21.0",
         "laminas/laminas-permissions-rbac": "^3.3.0",
