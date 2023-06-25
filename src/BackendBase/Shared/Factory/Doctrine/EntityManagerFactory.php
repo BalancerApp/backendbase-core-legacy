@@ -23,9 +23,9 @@ class EntityManagerFactory implements FactoryInterface
     {
         $appConfig = $container->get('config');
         if ($appConfig['debug'] === true) {
-            $cache = DoctrineProvider::wrap(new ArrayCache());
+            $cache = new ArrayCache();
         } else {
-            $cache = DoctrineProvider::wrap(new PhpFileCache());
+            $cache = new PhpFileCache();
         }
 
         Type::addType('uuid', UuidType::class);
@@ -33,14 +33,14 @@ class EntityManagerFactory implements FactoryInterface
         $doctrineDir = $appConfig['app']['data_dir'] . '/cache/Doctrine';
         $config      = new Configuration();
         $driverImpl  = $config->newDefaultAnnotationDriver(['src/Infrastructure/Persistence/Doctrine/Entity'], false);
-        $config->setMetadataCacheImpl($cache);
+        $config->setMetadataCache($cache);
+        $config->setQueryCache($cache);
         $config->setProxyDir($doctrineDir . '/Proxies');
         $config->setProxyNamespace($appConfig['doctrine']['namespace-for-generator'] . '\\Proxies');
-        $config->setQueryCacheImpl($cache);
         $config->addCustomStringFunction(DqlFunctions\JsonGetText::FUNCTION_NAME, DqlFunctions\JsonGetText::class);
         $config->addCustomStringFunction(DqlFunctions\JsonGet::FUNCTION_NAME, DqlFunctions\JsonGet::class);
         $config->setMetadataDriverImpl($driverImpl);
-        $config->setResultCacheImpl($cache);
+        $config->setResultCache($cache);
 
         return EntityManager::create($client, $config);
     }
