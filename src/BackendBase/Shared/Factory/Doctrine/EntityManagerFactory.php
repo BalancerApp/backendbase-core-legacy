@@ -24,8 +24,12 @@ class EntityManagerFactory implements FactoryInterface
         $appConfig = $container->get('config');
         if ($appConfig['debug'] === true) {
             $cache = new ArrayCache();
+            $resultCache = new ArrayCache();
+            $metadataCache = new ArrayCache();
         } else {
-            $cache = new PhpFileCache();
+            $cache = new PhpFileCache('doctrine_queries');
+            $resultCache = new PhpFileCache('doctrine_results');
+            $metadataCache = new PhpFileCache('doctrine_metadata');
         }
 
         Type::addType('uuid', UuidType::class);
@@ -40,7 +44,7 @@ class EntityManagerFactory implements FactoryInterface
         $config->addCustomStringFunction(DqlFunctions\JsonGetText::FUNCTION_NAME, DqlFunctions\JsonGetText::class);
         $config->addCustomStringFunction(DqlFunctions\JsonGet::FUNCTION_NAME, DqlFunctions\JsonGet::class);
         $config->setMetadataDriverImpl($driverImpl);
-        $config->setResultCache($cache);
+        $config->setResultCache($resultCache);
 
         return EntityManager::create($client, $config);
     }
