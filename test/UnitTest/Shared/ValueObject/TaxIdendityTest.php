@@ -8,13 +8,12 @@ use BackendBase\Shared\ValueObject\CorporateTaxId;
 use BackendBase\Shared\ValueObject\PrivateTaxId;
 use BackendBase\Shared\ValueObject\TaxIdentity;
 use Fixtures\GeneratedValues;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class TaxIdendityTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $privateTaxId   = new PrivateTaxId(GeneratedValues::PRIVATE_TAX_ID_EXAMPLE);

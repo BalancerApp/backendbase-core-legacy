@@ -1,0 +1,17 @@
+{
+    "_hash": "face7b3ee82e26b44c7a5e96339943b134a57e6e26b9ba1cf5242c8d62e77a5b",
+    "patches": {
+        "doctrine/dbal": [
+            {
+                "package": "doctrine/dbal",
+                "description": "PHP 8.5 PostgreSQL PDO constants and string interpolation compatibility",
+                "url": "patches/doctrine-dbal-2.13.9-php85.patch",
+                "sha256": "3c7fd12066b0ee82eab90c70135c7ff9b84821ceec96ccd82efca1950b66b3ef",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}

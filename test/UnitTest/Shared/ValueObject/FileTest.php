@@ -6,13 +6,12 @@ namespace UnitTest\Shared\ValueObject;
 
 use BackendBase\Shared\ValueObject\File;
 use BackendBase\Shared\ValueObject\LocalizedDateTime;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class FileTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $filePath = 'storage/temp/clover.xml';

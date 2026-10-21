@@ -29,12 +29,12 @@ abstract class ResultObjectsCollection implements Iterator, JsonSerializable
         $this->items[count($this->items)] = $item;
     }
 
-    public function current()
+    public function current(): mixed
     {
         return $this->items[$this->index];
     }
 
-    public function key()
+    public function key(): int
     {
         return $this->index;
     }

@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         stopOnFailure="true"
          bootstrap="vendor/autoload.php"
-         colors="true">
+         colors="true"
+         cacheResult="false"
+         failOnAllIssues="true"
+         failOnEmptyTestSuite="true"
+         displayDetailsOnAllIssues="true">
     <php>
         <ini name="memory_limit" value="-1"/>
+        <ini name="error_reporting" value="-1"/>
     </php>
     <testsuites>
         <testsuite name="BackendBase Unit Tests">
             <directory>test/UnitTest</directory>
         </testsuite>
+        <testsuite name="BackendBase PostgreSQL Tests">
+            <directory>test/IntegrationTest</directory>
+        </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src/BackendBase/Domain</directory>
-            <directory suffix=".php">./src/BackendBase/Shared</directory>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-clover" target="storage/temp/clover.xml"/>
-    </logging>
+    <source ignoreSuppressionOfDeprecations="true" ignoreSuppressionOfPhpDeprecations="true">
+        <include>
+            <directory suffix=".php">src/BackendBase</directory>
+        </include>
+    </source>
+    <coverage includeUncoveredFiles="true"/>
 </phpunit>

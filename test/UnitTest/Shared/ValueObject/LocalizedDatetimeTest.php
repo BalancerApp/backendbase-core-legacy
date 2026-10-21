@@ -8,13 +8,12 @@ use BackendBase\Shared\ValueObject\Exception\InvalidDateTimeProvided;
 use BackendBase\Shared\ValueObject\LocalizedDateTime;
 use DateInterval;
 use DateTimeZone;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class LocalizedDatetimeTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $datetime      = '2017-11-06 23:47:00';
@@ -38,9 +37,7 @@ final class LocalizedDatetimeTest extends TestCase
         $this->assertSame('UTC', $now->getTimezone()->getName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailInvalidDatetimeFormat() : void
     {
         $this->expectException(InvalidDateTimeProvided::class);

@@ -34,7 +34,7 @@ final class CorporateTaxId implements TaxId
         }
 
         $digits = str_split($taxId, 1);
-        $digits = array_map('self::parseInt', $digits);
+        $digits = array_map([self::class, 'parseInt'], $digits);
         $sum    = 0;
         for ($i=0; $i<count($digits)-1; $i++) {
             $temp = ($digits[$i] + 10 - ($i+1)) % 10;

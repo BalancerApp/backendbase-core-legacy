@@ -6,22 +6,19 @@ namespace UnitTest\Shared\ValueObject;
 
 use BackendBase\Shared\ValueObject\Email;
 use BackendBase\Shared\ValueObject\Exception\InvalidEmailAddress;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class EmailTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $email = new Email('mehmet@mkorkmaz.com');
         $this->assertSame('mehmet@mkorkmaz.com', $email->getEmail());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidEmail() : void
     {
         $this->expectException(InvalidEmailAddress::class);

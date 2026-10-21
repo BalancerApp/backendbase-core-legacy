@@ -10,7 +10,7 @@ use function defined;
 trait DomainException
 {
     private int $status;
-    private string $details;
+    private string $detail;
     private string $title;
     private ?string $type;
     private array $additional;

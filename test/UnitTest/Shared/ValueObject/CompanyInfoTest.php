@@ -11,13 +11,12 @@ use BackendBase\Shared\ValueObject\Exception\InvalidCompanyShortName;
 use BackendBase\Shared\ValueObject\Exception\InvalidCompanyType;
 use BackendBase\Shared\ValueObject\TaxIdentity;
 use Fixtures\GeneratedValues;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CompanyInfoTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $taxIdentity = TaxIdentity::fromCorporateCompany(
@@ -40,9 +39,7 @@ final class CompanyInfoTest extends TestCase
         $this->assertSame('Lorax', $companyInfo->shortName());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidLegalName() : void
     {
         $taxIdentity = TaxIdentity::fromCorporateCompany(
@@ -59,9 +56,7 @@ final class CompanyInfoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidShortName() : void
     {
         $taxIdentity = TaxIdentity::fromCorporateCompany(
@@ -78,9 +73,7 @@ final class CompanyInfoTest extends TestCase
         );
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidCompanyType() : void
     {
         $taxIdentity = TaxIdentity::fromCorporateCompany(

@@ -37,7 +37,7 @@ final class PrivateTaxId implements TaxId
         }
 
         $digits               = str_split($taxId, 1);
-        $digits               = array_map('self::parseInt', $digits);
+        $digits               = array_map([self::class, 'parseInt'], $digits);
         $checksumFor10thDigit = (
                 ($digits[0] + $digits[2] + $digits[4] + $digits[6] + $digits[8]) * 7
                 - ($digits[1] + $digits[3] + $digits[5] + $digits[7])

@@ -7,22 +7,19 @@ namespace UnitTest\Shared\ValueObject;
 use BackendBase\Shared\ValueObject\Exception\InvalidPrivateTaxIdNumber;
 use BackendBase\Shared\ValueObject\PrivateTaxId;
 use Fixtures\GeneratedValues;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class PrivateTaxIdTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $privateTaxId = new PrivateTaxId(GeneratedValues::PRIVATE_TAX_ID_EXAMPLE);
         $this->assertSame(GeneratedValues::PRIVATE_TAX_ID_EXAMPLE, $privateTaxId->taxId());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForTaxIdStartsWithZero() : void
     {
         $this->expectException(InvalidPrivateTaxIdNumber::class);
@@ -30,9 +27,7 @@ final class PrivateTaxIdTest extends TestCase
         new PrivateTaxId('01234567890');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidLengthTaxId() : void
     {
         $this->expectException(InvalidPrivateTaxIdNumber::class);
@@ -40,9 +35,7 @@ final class PrivateTaxIdTest extends TestCase
         new PrivateTaxId('1234567891');
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidChecksum2() : void
     {
         $this->expectException(InvalidPrivateTaxIdNumber::class);
@@ -53,9 +46,7 @@ final class PrivateTaxIdTest extends TestCase
         new PrivateTaxId(GeneratedValues::PRIVATE_TAX_ID_EXAMPLE_FOR_CHECKSUM_10_FAILURE);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidChecksum1() : void
     {
         $this->expectException(InvalidPrivateTaxIdNumber::class);

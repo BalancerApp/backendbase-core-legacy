@@ -7,13 +7,12 @@ namespace UnitTest\Shared\ValueObject;
 use BackendBase\Shared\ValueObject\ContactInfo;
 use BackendBase\Shared\ValueObject\Email;
 use BackendBase\Shared\ValueObject\PhoneNumber;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class ContactInfoTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $contactInfo = new ContactInfo(

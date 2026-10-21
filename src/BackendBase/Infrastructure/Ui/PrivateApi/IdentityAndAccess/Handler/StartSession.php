@@ -11,9 +11,11 @@ use BackendBase\Domain\User\Interfaces\UserRepository;
 use BackendBase\Infrastructure\Persistence\Doctrine\Repository\RolesRepository;
 use BackendBase\Shared\ValueObject\Email;
 use Laminas\Diactoros\Response\JsonResponse;
-use Lcobucci\JWT\Builder;
+use Lcobucci\JWT\Encoding\ChainedFormatter;
+use Lcobucci\JWT\Encoding\JoseEncoder;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
-use Lcobucci\JWT\Signer\Key;
+use Lcobucci\JWT\Signer\Key\InMemory;
+use Lcobucci\JWT\Token\Builder;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -58,9 +60,10 @@ class StartSession implements RequestHandlerInterface
             throw UserNotFound::create('Invalid username and/or password');
         }
 
-        $signer = new Sha256();
-        $time   = new \DateTimeImmutable();
-        $token  = (new Builder())->issuedBy('storage') // Configures the issuer (iss claim)
+        $signer  = new Sha256();
+        $time    = new \DateTimeImmutable();
+        $builder = Builder::new(new JoseEncoder(), ChainedFormatter::withUnixTimestampDates());
+        $token   = $builder->issuedBy('storage') // Configures the issuer (iss claim)
         //    ->permittedFor('http://example.org') // Configures the audience (aud claim)
         //    ->identifiedBy('4f1g23a12aa', true) // Configures the id (jti claim), replicating as a header item
         ->issuedAt($time) // Configures the time that the token was issue (iat claim)
@@ -68,12 +71,12 @@ class StartSession implements RequestHandlerInterface
         ->expiresAt($time->add(new \DateInterval('PT12H'))) // Configures the expiration time of the token (exp claim)
         ->withClaim('userId', $user->id()->toString()) // Configures a new claim, called "uid"
         ->withClaim('role', $user->role()) // Configures a new claim, called "uid"
-        ->getToken($signer, new Key('d81c8751fdd0a01e62b7acac5bea23a0d7d29beb03e428b863d02376aea628c1'));
+        ->getToken($signer, InMemory::plainText('d81c8751fdd0a01e62b7acac5bea23a0d7d29beb03e428b863d02376aea628c1'));
 
         $permissions = $this->rolesRepository->getRolePermissionsByRoleName($user->role());
 
         $data = [
-            'accessToken' => (string) $token,
+            'accessToken' => $token->toString(),
             'createdAt' => $time->format(DATE_ATOM),
             'willExpireAt' => $time->add(new \DateInterval('PT12H'))->format(DATE_ATOM),
             'userData' => [

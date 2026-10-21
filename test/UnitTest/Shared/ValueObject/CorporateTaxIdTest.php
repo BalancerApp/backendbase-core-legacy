@@ -7,22 +7,19 @@ namespace UnitTest\Shared\ValueObject;
 use BackendBase\Shared\ValueObject\CorporateTaxId;
 use BackendBase\Shared\ValueObject\Exception\InvalidCorporateTaxIdNumber;
 use Fixtures\GeneratedValues;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 final class CorporateTaxIdTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldSuccessfullyInit() : void
     {
         $corporateTaxId = new CorporateTaxId(GeneratedValues::CORPORATE_TAX_ID_VALID_EXAMPLE);
         $this->assertSame(GeneratedValues::CORPORATE_TAX_ID_VALID_EXAMPLE, $corporateTaxId->taxId());
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidLengthTaxId() : void
     {
         $this->expectException(InvalidCorporateTaxIdNumber::class);
@@ -32,9 +29,7 @@ final class CorporateTaxIdTest extends TestCase
         new CorporateTaxId(GeneratedValues::CORPORATE_TAX_ID_INVALID_LENGTH_EXAMPLE);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldFailForInvalidChecksum() : void
     {
         $this->expectException(InvalidCorporateTaxIdNumber::class);

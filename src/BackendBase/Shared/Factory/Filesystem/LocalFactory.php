@@ -6,15 +6,18 @@ namespace BackendBase\Shared\Factory\Filesystem;
 
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
-use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 
 final class LocalFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
-        $config  = $container->get('config');
-        $adapter = new Local($config['app']['storage-dir']);
+        $config     = $container->get('config');
+        $visibility = new PortableVisibilityConverter(defaultForDirectories: Visibility::PUBLIC);
+        $adapter    = new LocalFilesystemAdapter($config['app']['storage-dir'], $visibility);
 
         return new Filesystem($adapter);
     }

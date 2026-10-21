@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace UnitTest\Shared\Services;
 
-use PHPUnit\Framework\TestCase;
 use BackendBase\Shared\Services\TagAndAttributeRemover;
+use PHPUnit\Framework\Attributes\Test;
+use PHPUnit\Framework\TestCase;
+
 use function trim;
 
 final class TagAndAttributesRemoverTest extends TestCase
 {
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveTagsAndAttributesSuccessfully() : void
     {
         $html                     = <<<HTML
@@ -23,9 +23,7 @@ HTML;
         $this->assertSame('<div><a href="https://reformo.net" target="_blank"><img src="http://url.to.file.which/not.exist"></a></div>', $cleanedHtml);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveTagsSuccessfully() : void
     {
         $html                     = <<<HTML
@@ -36,9 +34,7 @@ HTML;
         $this->assertSame('<div><a><img></a></div>', $cleanedHtml);
     }
 
-    /**
-     * @test
-     */
+    #[Test]
     public function shouldRemoveAttributesWithHarmfulValuesSuccessfully() : void
     {
         $html                     = <<<HTML

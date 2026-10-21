@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace BackendBase\Shared\Factory;
 
+use BackendBase\Shared\Services\Persistence\LegacyRedisJson;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 use Redis;
@@ -18,6 +19,6 @@ final class ReJSONFactory implements FactoryInterface
          */
         $redisClient = $container->get(Redis::class);
 
-        return ReJSON::createWithPhpRedis($redisClient);
+        return LegacyRedisJson::createWithPhpRedis($redisClient);
     }
 }

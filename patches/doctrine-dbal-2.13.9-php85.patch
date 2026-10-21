@@ -1,0 +1,30 @@
+--- a/lib/Doctrine/DBAL/Driver/PDOPgSql/Driver.php
++++ b/lib/Doctrine/DBAL/Driver/PDOPgSql/Driver.php
+@@ -31,12 +31,12 @@
+             );
+ 
+             if (
+-                defined('PDO::PGSQL_ATTR_DISABLE_PREPARES')
+-                && (! isset($driverOptions[\PDO::PGSQL_ATTR_DISABLE_PREPARES])
+-                    || $driverOptions[\PDO::PGSQL_ATTR_DISABLE_PREPARES] === true
++                defined('Pdo\\Pgsql::ATTR_DISABLE_PREPARES')
++                && (! isset($driverOptions[\Pdo\Pgsql::ATTR_DISABLE_PREPARES])
++                    || $driverOptions[\Pdo\Pgsql::ATTR_DISABLE_PREPARES] === true
+                 )
+             ) {
+-                $pdo->setAttribute(\PDO::PGSQL_ATTR_DISABLE_PREPARES, true);
++                $pdo->setAttribute(\Pdo\Pgsql::ATTR_DISABLE_PREPARES, true);
+             }
+ 
+             /* defining client_encoding via SET NAMES to avoid inconsistent DSN support
+--- a/lib/Doctrine/DBAL/Platforms/PostgreSqlPlatform.php
++++ b/lib/Doctrine/DBAL/Platforms/PostgreSqlPlatform.php
+@@ -871,7 +871,7 @@
+             return $callback(true);
+         }
+ 
+-        throw new UnexpectedValueException("Unrecognized boolean literal '${value}'");
++        throw new UnexpectedValueException("Unrecognized boolean literal '{$value}'");
+     }
+ 
+     /**

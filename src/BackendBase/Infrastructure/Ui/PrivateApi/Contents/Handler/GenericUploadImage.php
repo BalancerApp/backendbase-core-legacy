@@ -8,7 +8,7 @@ use BackendBase\Infrastructure\Persistence\Doctrine\Repository\FileRepository;
 use BackendBase\Infrastructure\Persistence\Doctrine\Repository\GenericRepository;
 use BackendBase\Shared\Services\MessageBus\Interfaces\CommandBus;
 use Cocur\Slugify\Slugify;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\ImageManager;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Permissions\Rbac\Role;
 use League\Flysystem\Filesystem;
@@ -78,14 +78,15 @@ class GenericUploadImage implements RequestHandlerInterface
         $uploadedFile = $request->getAttribute('uploadedFilePath');
         $module       = $request->getAttribute('moduleName');
         $fileId       = Uuid::uuid4()->toString();
-        $filePath     =  'app/images/' . $module . '/' . $fileId . '.' . self::findExtension($this->fileSystem->getMimetype($uploadedFile));
+        $filePath     =  'app/images/' . $module . '/' . $fileId . '.' . self::findExtension($this->fileSystem->mimeType($uploadedFile));
 
-        $this->fileSystem->rename($uploadedFile, $filePath);
-        $img = Image::make('data/storage/' . $filePath);
-        $img->resize($aspectRatioWidth, $aspectRatioHeight, static function ($constraint) : void {
-            $constraint->aspectRatio();
-        });
-        $img->save('data/storage/' . $filePath);
+        $this->fileSystem->move($uploadedFile, $filePath);
+        $imageManager  = ImageManager::gd(autoOrientation: false, decodeAnimation: false);
+        $imageContents = $this->fileSystem->read($filePath);
+        $img           = $imageManager->read($imageContents);
+        $img->scale($aspectRatioWidth, $aspectRatioHeight);
+        $encodedImage = $img->encodeByPath($filePath, quality: 90);
+        $this->fileSystem->write($filePath, (string) $encodedImage);
         $fileData = [
             'id' =>$fileId ,
             'filePath' => $filePath,

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace BackendBase\Shared\Services;
 
-use const FILTER_FLAG_NO_ENCODE_QUOTES;
 use const FILTER_SANITIZE_EMAIL;
-use const FILTER_SANITIZE_STRING;
 use const PASSWORD_ARGON2ID;
 use function array_key_exists;
 use function filter_var;
@@ -14,6 +12,9 @@ use function is_array;
 use function is_int;
 use function is_string;
 use function password_hash;
+use function preg_replace;
+use function strip_tags;
+use function strtr;
 
 class PayloadSanitizer
 {
@@ -25,7 +26,7 @@ class PayloadSanitizer
         $sanitizedPayload = [];
         foreach ($payload as $key => $value) {
             if (is_string($key)) {
-                $key = filter_var($key, FILTER_SANITIZE_STRING);
+                $key = self::sanitizeString($key, true);
             }
             $currentKeyValue = $keyValue . '.' . $key;
             if (array_key_exists($currentKeyValue, $allowHtml)) {
@@ -50,7 +51,7 @@ class PayloadSanitizer
                 continue;
             }
             if (is_string($value)) {
-                $sanitizedPayload[$key] =  filter_var($value, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+                $sanitizedPayload[$key] =  self::sanitizeString($value);
                 continue;
             }
             if (is_array($value)) {
@@ -61,5 +62,15 @@ class PayloadSanitizer
         }
 
         return $sanitizedPayload;
+    }
+
+    private static function sanitizeString(string $value, bool $encodeQuotes = false): string
+    {
+        if ($encodeQuotes) {
+            $value = strtr($value, ["'" => '&#39;', '"' => '&#34;']);
+        }
+
+        // The legacy filter also strips tags starting with whitespace after "<".
+        return strip_tags(preg_replace('/<(?=[\x09-\x0D\x20])/', '<x', $value));
     }
 }
